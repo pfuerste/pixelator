@@ -16,11 +16,10 @@ void zeroPad(cv::Mat src, cv::Mat dst, int padding){
 	cv::imwrite("../io/paddedimg.png", dst);
 }
 
-// TODO: parallelize
-void pixelateByRegions(cv::Mat img, cv::Mat dst, int padding, int regionSize){
+// TODO: parallelize & overhead
+void pixelateByAvg(cv::Mat img, cv::Mat dst, int regionSize){
 	int rowSteps = img.rows/regionSize;
 	int colSteps = img.cols/regionSize;
-	std::cout<< rowSteps << " " << colSteps<<std::endl;
 	for (int i=0; i < rowSteps; i++){
 		for (int j=0; j < colSteps; j++){
 			cv::Vec3b pixelVals;
@@ -49,9 +48,17 @@ void pixelateByRegions(cv::Mat img, cv::Mat dst, int padding, int regionSize){
 			}
 		}
 	}
-	cv::imwrite("../io/test1Pixelated.png", dst);
+	//std::cout<<  <<std::endl;
+	//cv::imwrite("../io/test1Pixelated.png", dst);
 }
 
+cv::Mat pixelate(cv::Mat img, std::string processor, std::string args){
+	cv::Mat dst = img.clone();
+	if (processor == "pixelAvg"){
+		pixelateByAvg(img, dst, std::stoi(args));
+	}
+	return dst;
+}
 /* int main(int argc, char const *argv[]){
 	int padding = 10;
 	int regionSize = padding*2+1;
