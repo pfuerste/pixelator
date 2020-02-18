@@ -8,7 +8,6 @@ void zeroPad(cv::Mat src, cv::Mat dst, int padding){
 	std::cout<< "starting padding" <<std::endl;
 	for (int i=0; i < src.rows; i++){
 		for (int j=0; j < src.cols; j++){
-			//std::cout<< i <<std::endl;
 			cv::Vec3b pixelVals = src.at<cv::Vec3b>(i, j);
 			dst.at<cv::Vec3b>(i+padding, j+padding) = pixelVals;
 		}
@@ -24,11 +23,9 @@ void pixelateByAvg(cv::Mat img, cv::Mat dst, int regionSize){
 		for (int j=0; j < colSteps; j++){
 			cv::Vec3b pixelVals;
 			std::vector<int> pixelAvg(3);
-			//std::cout<< "Region at " << i << j <<std::endl;
 			for (int m=0; m < regionSize; m++){
 				for (int n=0; n < regionSize; n++){
 					pixelVals = img.at<cv::Vec3b>(i*regionSize+m, j*regionSize+n);
-					//std::cout<< "value " << pixelVals << std::endl;
 					for (int k=0; k < pixelAvg.size(); k++){
 						pixelAvg[k] += (int)pixelVals[k];
 					}
@@ -36,11 +33,8 @@ void pixelateByAvg(cv::Mat img, cv::Mat dst, int regionSize){
 			}
 			for (int k=0; k < pixelAvg.size(); k++){
 				pixelAvg[k] = pixelAvg[k]/(regionSize*regionSize);
-				//std::cout<< "Average " << pixelAvg[k] <<std::endl;
-
 			}
 			cv::Vec3b pixelAvg3b(pixelAvg[0], pixelAvg[1], pixelAvg[2]);
-			//std::cout<< "Converted to 3b" << pixelAvg3b <<std::endl;
 			for (int m=0; m < regionSize; m++){
 				for (int n=0; n < regionSize; n++){
 					dst.at<cv::Vec3b>(i*regionSize+m, j*regionSize+n) = pixelAvg3b;
