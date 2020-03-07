@@ -1,7 +1,7 @@
-#include <opencv2/opencv.hpp>
 #include <gflags/gflags.h>
+#include <opencv2/opencv.hpp>
 #include <iostream>
-#include <vector>
+#include <vector> 
 #include <functional>
 #include "pixeling.cpp"
 
@@ -96,9 +96,7 @@ void pipeline::processAll(){
 
 void pipeline::startProcessor(std::string processName, std::string args){
   // or all other names in pixelator
-  if (processName == "pixelAvg"){
-    img = pixelate(img, processName, args);
-  }
+  img = pixelate(img, processName, args);
 }
 
 std::vector<int> parseArgs(){

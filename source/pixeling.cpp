@@ -1,6 +1,7 @@
-#include<opencv2/opencv.hpp>
-#include<iostream>
-#include<vector>
+#include <opencv2/opencv.hpp>
+#include <iostream>
+#include <vector> 
+#include "clustering.cpp"
 
 // ideen: scale down, dann up (nearest neighbour) oder
 // Durchlaufe bild in Regionen und average diese 
@@ -15,13 +16,26 @@ void zeroPad(cv::Mat src, cv::Mat dst, int padding){
 	cv::imwrite("../io/paddedimg.png", dst);
 }
 
+void pixelateByClustering(cv::Mat img, cv::Mat dst, std::vector<cv::Vec3b> palette, int k){
+	std::vector<double> dists(k);
+	printColVec(palette);
+	for (int i=0; i < img.rows; i++){
+		for (int j=0; j < img.cols; j++){
+			for (int m=0; m < k; m++){
+				dists[m] = avgEucl(palette[m], img.at<cv::Vec3b>(i, j));
+			}
+			int minElementIndex = std::min_element(dists.begin(),dists.end()) - dists.begin();
+			dst.at<cv::Vec3b>(i, j) = palette[minElementIndex];
+		}
+	}
+}
+
 // TODO: parallelize
 void pixelateByAvg(cv::Mat img, cv::Mat dst, int regionSize){
 	int rowSteps = img.rows/regionSize;
 	int colSteps = img.cols/regionSize;
 	int rowOverhead = img.rows%regionSize;
 	int colOverhead = img.cols%regionSize;
-	std::cout<<rowOverhead<<std::endl;
 	int regionRows, regionCols;
 	for (int i=0; i <= rowSteps; i++){
 		for (int j=0; j <= colSteps; j++){
@@ -52,10 +66,15 @@ void pixelateByAvg(cv::Mat img, cv::Mat dst, int regionSize){
 	}
 }
 
+//TODO Nebelmeer & swords2 segfault
 cv::Mat pixelate(cv::Mat img, std::string processor, std::string args){
 	cv::Mat dst = img.clone();
 	if (processor == "pixelAvg"){
 		pixelateByAvg(img, dst, std::stoi(args));
+	}
+	if (processor == "kMeans"){
+		std::vector<cv::Vec3b> palette = kMeans(std::stoi(args), 5, img);
+		pixelateByClustering(img, dst, palette, std::stoi(args));
 	}
 	return dst;
 }
