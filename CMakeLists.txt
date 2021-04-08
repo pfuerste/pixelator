@@ -1,9 +1,26 @@
 cmake_minimum_required(VERSION 3.16)
 project(pixelator LANGUAGES CXX)
 
+#include("~/vcpkg/scripts/buildsystems/vcpkg.cmake")
+#set(CMAKE_TOOLCHAIN_FILE "~/vcpkg/scripts/buildsystems/vcpkg.cmake")
+
 #export OpenCV_DIR=~/opencv/opencv-4.2.0/build
-find_package(OpenCV REQUIRED)
-find_package(gflags REQUIRED)
+#set(protobuf_DIR "~/vcpkg/packages/protobuf_x64-linux/share/protobuf")
+#set(gflags_DIR "~/vcpkg/packages/gflags_x64-linux/share/gflags")
+#set(OpenCV_DIR "~/vcpkg/packages/opencv4_x64-linux/share/opencv")
+#export OpenCV_DIR="~/vcpkg/packages/opencv4_x64-linux/share/opencv"
+set(CMAKE_IGNORE_PATH "/mnt/c/Users/phili/anaconda3/Library")
+#set(CMAKE_MODULE_PATH "~/vcpkg/installed/x64-linux/include")
+set(CMAKE_PREFIX_PATH "~/vcpkg/installed/x64-linux/")
+#set(OpenCV_DIR "~/vcpkg/packages/opencv4_x64-linux/share/opencv")
+#set(TIFF_INCLUDE_DIR "~/home/philip/vcpkg/installed/x64-linux/include")
+#set(TIFF_LIBRARY "~/home/philip/vcpkg/installed/x64-linux/lib/libtiff.a")
+
+find_package(protobuf CONFIG REQUIRED)
+find_package(OpenCV CONFIG REQUIRED)
+find_package(gflags CONFIG REQUIRED)
+#find_package(TIFF)
+#find_package(quirc)
 
 add_library(pixeling ${CMAKE_SOURCE_DIR}/source/pixeling.cpp)
 target_link_libraries(pixeling ${OpenCV_LIBS})

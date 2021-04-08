@@ -62,6 +62,11 @@ int pipeline::getSteps(){
   return steps;
 }
 void pipeline::setProcessors(std::vector<std::string> p){
+  for (size_t i = 0; i < p.size(); i++)
+  {
+      std::cout<<p[i]<<std::endl;
+  }
+  
   processors = p;
 }
 std::vector<std::string> pipeline::getProcessors(){
@@ -96,6 +101,7 @@ void pipeline::processAll(){
 
 void pipeline::startProcessor(std::string processName, std::string args){
   // or all other names in pixelator
+  std::cout<<"starting processor"<<std::endl;
   img = pixelate(img, processName, args);
 }
 
