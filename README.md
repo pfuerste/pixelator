@@ -7,3 +7,5 @@ TODO:
 - Pipeline Setup (varying argument lenght)
 - TEST with different images
 - Parallelize
+
+- Implement different methods for pixelating
