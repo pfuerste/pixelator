@@ -50,7 +50,6 @@ public:
   cv::Mat getImg();
   void processAll();
   void startProcessor(std::string, std::string);
-  std::vector<int> parseArgs();
 };
 
 pipeline::pipeline(int s, std::vector<std::string> p, std::vector<std::string> a, std::string so){
@@ -105,12 +104,7 @@ void pipeline::processAll(){
 }
 
 void pipeline::startProcessor(std::string processName, std::string args){
-  // or all other names in pixelator
-  // std::cout<<"starting processor"<<std::endl;
   img = pixelate(img, processName, args);
-}
-
-std::vector<int> parseArgs(){
 }
 
 int main(int argc, char *argv[]){
