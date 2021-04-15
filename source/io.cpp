@@ -32,7 +32,6 @@ std::vector<std::string> splitInput(std::string s){
   return out;
 }
 
-
 //TODO move this interface to header?
 class pipeline{
 private:
@@ -128,24 +127,16 @@ std::vector<int> parseArgs(){
 int main(int argc, char *argv[]){
   gflags::ParseCommandLineFlags(&argc, &argv, true);
   
-  std::vector<std::string> processors;
-  std::vector<std::string> arguments;  
-  processors.push_back(FLAGS_pipeA);
-  std::vector<std::string> parsed = splitInput(FLAGS_pipeA);
-  for (size_t i = 0; i < parsed.size(); i++)
-  {
-      std::cout<<parsed[i]<<std::endl;
-  }
-  // for (size_t i = 0; i < processors.size(); i++)
-  // {
-  //     std::cout<<processors[i]<<std::endl;
-  // }
-  //std::cout<<FLAGS_pipeA.find(",")<<std::endl;
-  arguments.push_back(FLAGS_argsA);
-  processors.push_back(FLAGS_pipeB);
-  arguments.push_back(FLAGS_argsB);
-  processors.push_back(FLAGS_pipeC);
-  arguments.push_back(FLAGS_argsC);
+  //std::vector<std::string> processors;
+  //std::vector<std::string> arguments;  
+  std::vector<std::string> processors = splitInput(FLAGS_pipeA);
+  std::vector<std::string> arguments = splitInput(FLAGS_argsA);
+  //processors.push_back(parsed);
+  //arguments.push_back(FLAGS_argsA);
+  // processors.push_back(FLAGS_pipeB);
+  // arguments.push_back(FLAGS_argsB);
+  // processors.push_back(FLAGS_pipeC);
+  // arguments.push_back(FLAGS_argsC);
 
   pipeline pipe = pipeline(FLAGS_numPipes, processors, arguments, FLAGS_source);
   pipe.processAll();
