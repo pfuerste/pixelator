@@ -6,7 +6,7 @@
 // ideen: scale down, dann up (nearest neighbour) oder
 // Durchlaufe bild in Regionen und average diese 
 void zeroPad(cv::Mat src, cv::Mat dst, int padding){
-	std::cout<< "starting padding" <<std::endl;
+	//std::cout<< "starting padding" <<std::endl;
 	for (int i=0; i < src.rows; i++){
 		for (int j=0; j < src.cols; j++){
 			cv::Vec3b pixelVals = src.at<cv::Vec3b>(i, j);
@@ -32,7 +32,7 @@ void pixelateByClustering(cv::Mat img, cv::Mat dst, std::vector<cv::Vec3b> palet
 
 // TODO: parallelize
 void pixelateByAvg(cv::Mat img, cv::Mat dst, int regionSize){
-	std::cout<<"pixelateSize" <<regionSize<<std::endl;
+	//std::cout<<"pixelateSize" <<regionSize<<std::endl;
 	int rowSteps = img.rows/regionSize;
 	int colSteps = img.cols/regionSize;
 	int rowOverhead = img.rows%regionSize;
@@ -70,7 +70,7 @@ void pixelateByAvg(cv::Mat img, cv::Mat dst, int regionSize){
 //TODO Nebelmeer & swords2 segfault
 cv::Mat pixelate(cv::Mat img, std::string processor, std::string args){
 	cv::Mat dst = img.clone();
-	std::cout<< processor <<", " <<args<<std::endl;
+	//std::cout<< processor <<", " <<args<<std::endl;
 	if (processor == "pixelAvg"){
 		pixelateByAvg(img, dst, std::stoi(args));
 	}

@@ -7,6 +7,7 @@
 
 //DEFINE_[bool, int32, int64, uint64, double, string]
 //(varName, defaultValue, description)
+// TODO numpipes Nötig?
 DEFINE_uint32(numPipes, 1, "Number of processing steps");
 DEFINE_string(source, "../io/test1.jpg", "source file name");
 DEFINE_string(pipeA, "None", "Which processing step");
@@ -15,6 +16,22 @@ DEFINE_string(pipeC, "None", "Which processing step");
 DEFINE_string(argsA, "None", "arguments for this pipeline");
 DEFINE_string(argsB, "None", "arguments for this pipeline");
 DEFINE_string(argsC, "None", "arguments for this pipeline");
+
+
+std::vector<std::string> splitInput(std::string s){
+  std::string delimiter = ",";
+  std::vector<std::string> out;
+  size_t pos = 0;
+  std::string token;
+  while ((pos = s.find(delimiter)) != std::string::npos) {
+      token = s.substr(0, pos);
+      out.push_back(token);
+      s.erase(0, pos + delimiter.length());
+  }
+  out.push_back(s);
+  return out;
+}
+
 
 //TODO move this interface to header?
 class pipeline{
@@ -62,10 +79,10 @@ int pipeline::getSteps(){
   return steps;
 }
 void pipeline::setProcessors(std::vector<std::string> p){
-  for (size_t i = 0; i < p.size(); i++)
-  {
-      std::cout<<p[i]<<std::endl;
-  }
+  // for (size_t i = 0; i < p.size(); i++)
+  // {
+  //     std::cout<<p[i]<<std::endl;
+  // }
   
   processors = p;
 }
@@ -101,7 +118,7 @@ void pipeline::processAll(){
 
 void pipeline::startProcessor(std::string processName, std::string args){
   // or all other names in pixelator
-  std::cout<<"starting processor"<<std::endl;
+  // std::cout<<"starting processor"<<std::endl;
   img = pixelate(img, processName, args);
 }
 
@@ -110,10 +127,20 @@ std::vector<int> parseArgs(){
 
 int main(int argc, char *argv[]){
   gflags::ParseCommandLineFlags(&argc, &argv, true);
- 
+  
   std::vector<std::string> processors;
   std::vector<std::string> arguments;  
   processors.push_back(FLAGS_pipeA);
+  std::vector<std::string> parsed = splitInput(FLAGS_pipeA);
+  for (size_t i = 0; i < parsed.size(); i++)
+  {
+      std::cout<<parsed[i]<<std::endl;
+  }
+  // for (size_t i = 0; i < processors.size(); i++)
+  // {
+  //     std::cout<<processors[i]<<std::endl;
+  // }
+  //std::cout<<FLAGS_pipeA.find(",")<<std::endl;
   arguments.push_back(FLAGS_argsA);
   processors.push_back(FLAGS_pipeB);
   arguments.push_back(FLAGS_argsB);

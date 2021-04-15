@@ -7,11 +7,11 @@
 void printColVec(std::vector<cv::Vec3b> colors){
 	for (int i=0; i < colors.size(); i++){
 		for (int j=0; j < 3; j++){
-			std::cout<<static_cast<int>(colors[i][j]) << " ";
+			//std::cout<<static_cast<int>(colors[i][j]) << " ";
 		}
-		std::cout<< "; ";
+		//std::cout<< "; ";
 	}
-	std::cout<<std::endl;
+	//std::cout<<std::endl;
 }
 
 double avgEucl(cv::Vec3b a, cv::Vec3b b){
@@ -70,9 +70,9 @@ std::vector<cv::Vec3b> kMeans(int k, int maxIter, cv::Mat img){
 			centersAfter[i] = avgCol(clusters[i]);
 			summedClusterMovement += avgEucl(centersAfter[i], centers[i]);
 			centers[i] = centersAfter[i];
-			std::cout<< clusters[i].size() << " ; ";
+			//std::cout<< clusters[i].size() << " ; ";
 		}
-		std::cout<<std::endl;
+		//std::cout<<std::endl;
 		printColVec(centers);
 		iter += 1;
 	}

@@ -9,3 +9,7 @@ TODO:
 - Parallelize
 
 - Implement different methods for pixelating
+
+
+Current Call:
+./io -numPipes 2 -source ../io/flum.jpg -pipeA kMeans -argsA 15 -pipeB pixelAvg -argsB 9
