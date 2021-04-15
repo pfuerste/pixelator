@@ -8,16 +8,9 @@
 
 //DEFINE_[bool, int32, int64, uint64, double, string]
 //(varName, defaultValue, description)
-// TODO numpipes Nötig?
-DEFINE_uint32(numPipes, 1, "Number of processing steps");
 DEFINE_string(source, "../io/test1.jpg", "source file name");
-DEFINE_string(pipeA, "None", "Which processing step");
-DEFINE_string(pipeB, "None", "Which processing step");
-DEFINE_string(pipeC, "None", "Which processing step");
-DEFINE_string(argsA, "None", "arguments for this pipeline");
-DEFINE_string(argsB, "None", "arguments for this pipeline");
-DEFINE_string(argsC, "None", "arguments for this pipeline");
-
+DEFINE_string(pipe, "None", "Set Processing Steps as comma-seperated list from ['pixelAvg', 'kMeans']");
+DEFINE_string(args, "None", "Set one argument epr processing Step.");
 
 std::vector<std::string> splitInput(std::string s){
   std::string delimiter = ",";
@@ -79,11 +72,6 @@ int pipeline::getSteps(){
   return steps;
 }
 void pipeline::setProcessors(std::vector<std::string> p){
-  // for (size_t i = 0; i < p.size(); i++)
-  // {
-  //     std::cout<<p[i]<<std::endl;
-  // }
-  
   processors = p;
 }
 std::vector<std::string> pipeline::getProcessors(){
@@ -127,8 +115,8 @@ std::vector<int> parseArgs(){
 
 int main(int argc, char *argv[]){
   gflags::ParseCommandLineFlags(&argc, &argv, true); 
-  std::vector<std::string> processors = splitInput(FLAGS_pipeA);
-  std::vector<std::string> arguments = splitInput(FLAGS_argsA);
+  std::vector<std::string> processors = splitInput(FLAGS_pipe);
+  std::vector<std::string> arguments = splitInput(FLAGS_args);
   assert(processors.size()==arguments.size());
   pipeline pipe = pipeline(processors.size(), processors, arguments, FLAGS_source);
   pipe.processAll();
