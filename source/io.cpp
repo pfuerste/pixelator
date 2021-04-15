@@ -4,6 +4,7 @@
 #include <vector> 
 #include <functional>
 #include "pixeling.cpp"
+#include <assert.h>
 
 //DEFINE_[bool, int32, int64, uint64, double, string]
 //(varName, defaultValue, description)
@@ -125,20 +126,11 @@ std::vector<int> parseArgs(){
 }
 
 int main(int argc, char *argv[]){
-  gflags::ParseCommandLineFlags(&argc, &argv, true);
-  
-  //std::vector<std::string> processors;
-  //std::vector<std::string> arguments;  
+  gflags::ParseCommandLineFlags(&argc, &argv, true); 
   std::vector<std::string> processors = splitInput(FLAGS_pipeA);
   std::vector<std::string> arguments = splitInput(FLAGS_argsA);
-  //processors.push_back(parsed);
-  //arguments.push_back(FLAGS_argsA);
-  // processors.push_back(FLAGS_pipeB);
-  // arguments.push_back(FLAGS_argsB);
-  // processors.push_back(FLAGS_pipeC);
-  // arguments.push_back(FLAGS_argsC);
-
-  pipeline pipe = pipeline(FLAGS_numPipes, processors, arguments, FLAGS_source);
+  assert(processors.size()==arguments.size());
+  pipeline pipe = pipeline(processors.size(), processors, arguments, FLAGS_source);
   pipe.processAll();
 }
 
