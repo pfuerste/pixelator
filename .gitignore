@@ -12,3 +12,5 @@ _deps
 
 io/*
 build
+.vscode/settings.json
+.vscode/*

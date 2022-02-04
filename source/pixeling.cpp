@@ -18,7 +18,7 @@ void zeroPad(cv::Mat src, cv::Mat dst, int padding){
 
 void pixelateByClustering(cv::Mat img, cv::Mat dst, std::vector<cv::Vec3b> palette, int k){
 	std::vector<double> dists(k);
-	printColVec(palette);
+	// printColVec(palette);
 	for (int i=0; i < img.rows; i++){
 		for (int j=0; j < img.cols; j++){
 			for (int m=0; m < k; m++){
