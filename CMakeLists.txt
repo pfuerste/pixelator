@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(pixelator VERSION 0.1.0)
 
-include(CTest)
-enable_testing()
-
 set(CMAKE_IGNORE_PATH "C:/Users/phili/anaconda3/Library")
 set(gflags_DIR "C:/Users/phili/Documents/c_libraries/gflags-master/gflags-master/build/")
 include_directories("C:/Users/phili/Documents/c_libraries/gflags-master/gflags-master/build/include/")
@@ -18,6 +15,10 @@ target_link_libraries(pixeling clustering ${OpenCV_LIBS})
 add_executable(io ${CMAKE_SOURCE_DIR}/source/io.cpp)
 target_link_libraries(io gflags pixeling ${OpenCV_LIBS})
 
+include(CTest)
+enable_testing()
+add_executable(basic_tests ${CMAKE_SOURCE_DIR}/Testing/basic_tests.cpp)
+add_test(test basic_tests)
 # set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 # set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 # include(CPack)
