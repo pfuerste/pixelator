@@ -51,10 +51,12 @@ std::vector<cv::Vec3b> kMeans(int k, int maxIter, cv::Mat img){
 	}
 
 	int iter = 0;
-	double summedClusterMovement = 100;
+	double avgClusterMovement = 100;
 	double eps = 1;
-	while ((iter < maxIter) && (summedClusterMovement > eps)){
-		summedClusterMovement = 0;
+	// TODO parallelize & optimize: Iterations take too long
+	// || or && ?
+	while ((iter < maxIter) && (avgClusterMovement > eps)){
+		avgClusterMovement = 0;
 		std::vector<std::vector<cv::Vec3b>> clusters(k);
 		for (int i=0; i < img.rows; i++){
 			for (int j=0; j < img.cols; j++){
@@ -68,9 +70,11 @@ std::vector<cv::Vec3b> kMeans(int k, int maxIter, cv::Mat img){
 		}
 		for (int i=0; i < k; i++){
 			centersAfter[i] = avgCol(clusters[i]);
-			summedClusterMovement += avgEucl(centersAfter[i], centers[i]);
+			avgClusterMovement += avgEucl(centersAfter[i], centers[i]);
 			centers[i] = centersAfter[i];
 		}
+		avgClusterMovement /= k;
+		std::cout<<avgClusterMovement<<std::endl;
 		iter += 1;
 	}
 	return centers;

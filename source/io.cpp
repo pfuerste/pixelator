@@ -63,11 +63,11 @@ int main(int argc, char *argv[]){
   assert(arguments.data()[0] != "None");
 
   assert(processors.size()==arguments.size());
-  std::cout << processors.size() << " " << arguments.size() << std::endl;
-  for (std::string i:processors)
-    std::cout<<i<<std::endl;
-  for (std::string i : arguments)
-    std::cout << i << std::endl;
+  // std::cout << processors.size() << " " << arguments.size() << std::endl;
+  // for (std::string i:processors)
+  //   std::cout<<i<<std::endl;
+  // for (std::string i : arguments)
+  //   std::cout << i << std::endl;
   // cv::Mat img;
   // img = cv::imread("C:/Users/phili/_Documents/Projects/pixelator/io/casper.jpg");
   // cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);
@@ -127,6 +127,7 @@ cv::Mat pipeline::getImg(){
 
 void pipeline::processAll(){
   for (int i=0; i < steps; i++){
+    std::cout << processors[i] << std::endl;
     startProcessor(processors[i], args[i]);
   }
   cv::imwrite("C:/Users/phili/_Documents/Projects/pixelator/io/pipelineOutput.png", img);
