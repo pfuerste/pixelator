@@ -2,13 +2,14 @@
 #include <iostream>
 #include <vector> 
 #include <functional>
-//#include "pixeling.cpp"
+#include "pixeling.cpp"
 #include <opencv2/opencv.hpp>
 #include <assert.h>
 #include <string>
+
 //DEFINE_[bool, int32, int64, uint64, double, string]
 //(varName, defaultValue, description)
-DEFINE_string(source, "../io/test1.jpg", "source file name");
+DEFINE_string(source, "C:/Users/phili/_Documents/Projects/pixelator/io/test1.jpg", "source file name");
 DEFINE_string(pipe, "None", "Set Processing Steps as comma-seperated list from ['pixelAvg', 'kMeans']");
 DEFINE_string(args, "None", "Set one argument epr processing Step.");
 
@@ -58,7 +59,7 @@ int main(int argc, char *argv[]){
   gflags::ParseCommandLineFlags(&argc, &argv, true); 
   std::vector<std::string> processors = splitInput(FLAGS_pipe);
   std::vector<std::string> arguments = splitInput(FLAGS_args);
-  assert(processors.data()[0]!="None");
+  assert(processors.data()[0] != "None");
   assert(arguments.data()[0] != "None");
 
   assert(processors.size()==arguments.size());
@@ -73,7 +74,7 @@ int main(int argc, char *argv[]){
   // cv::imshow("Display Image", img);
   // cv::waitKey(0); 
   pipeline pipe = pipeline(processors.size(), processors, arguments, FLAGS_source);
-  // pipe.processAll();
+  pipe.processAll();
   return 0;
 }
 
@@ -86,7 +87,7 @@ pipeline::pipeline(int s, std::vector<std::string> p, std::vector<std::string> a
 }
 
 pipeline::~pipeline(){
-  //cv::imwrite("../io/pipelineOutput.png", img);
+  cv::imwrite("C:/Users/phili/_Documents/Projects/pixelator/io/pipelineOutput.png", img);
 }
 
 void pipeline::setSteps(int s){
@@ -116,6 +117,9 @@ std::string pipeline::getSource(){
 }
 void pipeline::setImg(){
   img = cv::imread(source);
+  // cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);
+  // cv::imshow("Display Image", img);
+  // cv::waitKey(0);
 }
 cv::Mat pipeline::getImg(){
   return img;
@@ -125,10 +129,9 @@ void pipeline::processAll(){
   for (int i=0; i < steps; i++){
     startProcessor(processors[i], args[i]);
   }
-  cv::imwrite("../io/pipelineOutput.png", img);
+  cv::imwrite("C:/Users/phili/_Documents/Projects/pixelator/io/pipelineOutput.png", img);
 }
 
 void pipeline::startProcessor(std::string processName, std::string args){
-  std::cout<<"nothing"<<std::endl;
-   //img = pixelate(img, processName, args);
-  }
+  img = pixelate(img, processName, args);
+}
